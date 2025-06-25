@@ -143,6 +143,10 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 	{
 		std::cout << "Creating a Push/Pull/Legs workout split..." << "\n" << std::endl;
 
+		std::cout << "Welcome to your Push/Pull/Legs workout split! This split is seperated into 3 exercise days with 4 rest days. An example" << '\n' 
+				  << "of what a week would what a week would look like is as fallows: Monday - Push, Tuesday - Rest, Wednesday - Pull," << '\n' 
+				  << "Thursday - Rest, Friday - Legs, Saturday - Rest, Sunday - Rest." << '\n' << std::endl;
+
 		std::cout << "\n" << "Week 1:" << std::endl;
 		
 		std::cout << "\n" << "Push Day:" << std::endl;
@@ -338,7 +342,100 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 	else if (workoutType == 2)
 	{
 		std::cout << "Creating an Upper/Lower workout split..." << "\n" << std::endl;
-		// Add logic for Upper/Lower split
+		
+		std::cout << "Welcome to your Upper/Lower workout split! This split is seperated into 4 exercise days with 3 rest days. An example" << '\n' 
+				  << "of what a week would what a week would look like is as fallows: Monday - Upper day 1, Tuesday - Lower day 1, Wednesday - Rest," << '\n' 
+				  << "Thursday - Upper day 2, Friday - Lower day 2, Saturday - Rest, Sunday - Rest." << '\n' << std::endl;
+
+		std::cout << "\n" << "Week 1:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 12 for " << weekOne_TwoBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 2:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 12 for " << weekOne_TwoBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 3:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 10 for " << weekThree_FourBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 4:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 10 for " << weekThree_FourBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 5:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 8 for " << weekFive_SixBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 6:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 8 for " << weekFive_SixBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 7:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 5 for " << weekSeven_EightBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 8:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 5 for " << weekSeven_EightBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 9:" << std::endl;
+
+		std::cout << "\n" << "Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: 3 x 3 for " << weekNineBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
+
+		std::cout << '\n' << "Week 10:" << std::endl;
+
+		std::cout << "\n" << "MAX Upper Day 1:" << std::endl;
+
+		std::cout << '\n' << "Bench Press: Work towards a new Max Bench\\" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
+			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
+		//Add Lower day 1, Upper day 2, Lower day 2
 	}
 
 	else if (workoutType == 3)
