@@ -3,325 +3,244 @@
 
 void welcomeMessage()
 {
-	std::cout << "Welcome to the Workout Split Creator! Here you will enter your current Max Bench, Squat, and Deadlift weights and this system will " << '\n' 
-		<< "auto generate workout splits with progressive overload features based on your inputs.Follow the instructions below to get started. " << '\n'
-		<< "When the system gives you your split, copy and paste the weekley breakdown into an excel or google spreadsheet and tailor it to your needs.Enjoy!" << "\n" << std::endl;
+	std::cout << "Welcome to the Workout Split Creator! Here you will enter your current max Bench, Squat, and Deadlift weights, and this system will\n"
+	          << "auto-generate workout splits with progressive overload features based on your inputs. Follow the instructions below to get started.\n"
+	          << "When the system gives you your split, copy and paste the weekly breakdown into an Excel or Google spreadsheet and tailor it to your needs. Enjoy!\n" << std::endl;
 	std::cout << "Enter which style of workout split you want to create:" << "\n" << std::endl;
 	std::cout << "1. Push/Pull/Legs" << std::endl;
 	std::cout << "2. Upper/Lower" << std::endl;
 	std::cout << "3. Full Body" << "\n" << std::endl;
 }
 
+int roundToNearest5(double value)
+{
+	return static_cast<int> (std::round(value / 5.0) * 5);
+}
+
 void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int maxDeadlift)
 {	
-	int weekOne_TwoBenchPress = maxBenchPress * 0.5;
-	int weekThree_FourBenchPress = maxBenchPress * 0.6;
-	int weekFive_SixBenchPress = maxBenchPress * 0.7;
-	int weekSeven_EightBenchPress = maxBenchPress * 0.8;
-	int weekNineBenchPress = maxBenchPress * 0.9;
+	double weekOne_TwoBenchPress = maxBenchPress * 0.5;
+	double weekThree_FourBenchPress = maxBenchPress * 0.6;
+	double weekFive_SixBenchPress = maxBenchPress * 0.7;
+	double weekSeven_EightBenchPress = maxBenchPress * 0.8;
+	double weekNineBenchPress = maxBenchPress * 0.9;
 
-	int weekOne_TwoSquat = maxSquat * 0.5;
-	int weekThree_FourSquat = maxSquat * 0.6;
-	int weekFive_SixSquat = maxSquat * 0.7;
-	int weekSeven_EightSquat = maxSquat * 0.8;
-	int weekNineSquat = maxSquat * 0.9;
+	double weekOne_TwoSquat = maxSquat * 0.5;
+	double weekThree_FourSquat = maxSquat * 0.6;
+	double weekFive_SixSquat = maxSquat * 0.7;
+	double weekSeven_EightSquat = maxSquat * 0.8;
+	double weekNineSquat = maxSquat * 0.9;
 
-	int weekOne_TwoDeadlift = maxDeadlift * 0.5;
-	int weekThree_FourDeadlift = maxDeadlift * 0.6;
-	int weekFive_SixDeadlift = maxDeadlift * 0.7;
-	int weekSeven_EightDeadlift = maxDeadlift * 0.8;
-	int weekNineDeadlift = maxDeadlift * 0.9;
+	double weekOne_TwoDeadlift = maxDeadlift * 0.5;
+	double weekThree_FourDeadlift = maxDeadlift * 0.6;
+	double weekFive_SixDeadlift = maxDeadlift * 0.7;
+	double weekSeven_EightDeadlift = maxDeadlift * 0.8;
+	double weekNineDeadlift = maxDeadlift * 0.9;
 
 	// Rounds week one and two calculated weights to the nearest 5 lbs
-	int weekOneTwoBenchRemainder = weekOne_TwoBenchPress % 5;
-
-	if (weekOneTwoBenchRemainder != 0)
-	{
-		weekOne_TwoBenchPress -= weekOneTwoBenchRemainder;
-	}
-	
-
-	int weekOneTwoDeadliftRemainder = weekOne_TwoDeadlift % 5;
-
-	if (weekOneTwoDeadliftRemainder != 0)
-	{
-		weekOne_TwoDeadlift -= weekOneTwoDeadliftRemainder;
-	}
-
-	int weekOneTwoSquatRemainder = weekOne_TwoSquat % 5;
-
-	if (weekOneTwoSquatRemainder != 0)
-	{
-		weekOne_TwoSquat -= weekOneTwoSquatRemainder;
-	}
+	int weekOne_TwoBenchPressRounded = roundToNearest5(weekOne_TwoBenchPress);
+	int weekOne_TwoDeadliftRounded = roundToNearest5(weekOne_TwoDeadlift);
+	int weekOne_TwoSquatRounded = roundToNearest5(weekOne_TwoSquat);
 
 	//Rounds week three and four calculated weights to the nearest 5 lbs
-	int weekThreeFourBenchRemainder = weekThree_FourBenchPress % 5;
-
-	if (weekThreeFourBenchRemainder != 0)
-	{
-		weekThree_FourBenchPress -= weekThreeFourBenchRemainder;
-	}
-
-	int weekThreeFourDeadliftRemainder = weekThree_FourDeadlift % 5;
-
-	if (weekThreeFourDeadliftRemainder != 0)
-	{
-		weekThree_FourDeadlift -= weekThreeFourDeadliftRemainder;
-	}
-
-	int weekThreeFourSquatRemainder = weekThree_FourSquat % 5;
-
-	if (weekThreeFourSquatRemainder != 0)
-	{
-		weekThree_FourSquat -= weekThreeFourSquatRemainder;
-	}
+	int weekThree_FourBenchPressRounded = roundToNearest5(weekThree_FourBenchPress);
+	int weekThree_FourDeadliftRounded = roundToNearest5(weekThree_FourDeadlift);
+	int weekThree_FourSquatRounded = roundToNearest5(weekThree_FourSquat);
 
 	//Rounds week five and six calculated weights to the nearest 5 lbs
-	int weekFiveSixBenchRemainder = weekFive_SixBenchPress % 5;
-
-	if (weekFiveSixBenchRemainder != 0)
-	{
-		weekFive_SixBenchPress -= weekFiveSixBenchRemainder;
-	}
-
-	int weekFiveSixDeadliftRemainder = weekFive_SixDeadlift % 5;
-
-	if (weekFiveSixDeadliftRemainder != 0)
-	{
-		weekFive_SixDeadlift -= weekFiveSixDeadliftRemainder;
-	}
-
-	int weekFiveSixSquatRemainder = weekFive_SixSquat % 5;
-
-	if (weekFiveSixSquatRemainder != 0)
-	{
-		weekFive_SixSquat -= weekFiveSixSquatRemainder;
-	}
+	int weekFive_SixBenchPressRounded = roundToNearest5(weekFive_SixBenchPress);
+	int weekFive_SixDeadliftRounded = roundToNearest5(weekFive_SixDeadlift);
+	int weekFive_SixSquatRounded = roundToNearest5(weekFive_SixSquat);
 
 	//Rounds week seven and eight calculated weights to the nearest 5 lbs
-	int weekSevenEightBenchRemainder = weekSeven_EightBenchPress % 5;
-
-	if (weekSevenEightBenchRemainder != 0)
-	{
-		weekSeven_EightBenchPress -= weekSevenEightBenchRemainder;
-	}
-
-	int weekSevenEightDeadliftRemainder = weekSeven_EightDeadlift % 5;
-
-	if (weekSevenEightDeadliftRemainder != 0)
-	{
-		weekSeven_EightDeadlift -= weekSevenEightDeadliftRemainder;
-	}
-
-	int weekSevenEightSquatRemainder = weekSeven_EightSquat % 5;
-
-	if (weekSevenEightSquatRemainder != 0)
-	{
-		weekSeven_EightSquat -= weekSevenEightSquatRemainder;
-	}
+	int weekSeven_EightBenchPressRounded = roundToNearest5(weekSeven_EightBenchPress);
+	int weekSeven_EightDeadliftRounded = roundToNearest5(weekSeven_EightDeadlift);
+	int weekSeven_EightSquatRounded = roundToNearest5(weekSeven_EightSquat);
 
 	//Rounds week nine calculated weights to the nearest 5 lbs
-	int weekNineBenchRemainder = weekNineBenchPress % 5;
-
-	if (weekNineBenchRemainder != 0)
-	{
-		weekNineBenchPress -= weekNineBenchRemainder;
-	}
-
-	int weekNineDeadliftRemainder = weekNineDeadlift % 5;
-
-	if (weekNineDeadliftRemainder != 0)
-	{
-		weekNineDeadlift -= weekNineDeadliftRemainder;
-	}
-
-	int weekNineSquatRemainder = weekNineSquat % 5;
-
-	if (weekNineSquatRemainder != 0)
-	{
-		weekNineSquat -= weekNineSquatRemainder;
-	}
+	int weekNineBenchPressRounded = roundToNearest5(weekNineBenchPress);
+	int weekNineDeadliftRounded = roundToNearest5(weekNineDeadlift);
+	int weekNineSquatRounded = roundToNearest5(weekNineSquat);
 	
 	if (workoutType == 1)
 	{
 		std::cout << "Creating a Push/Pull/Legs workout split..." << "\n" << std::endl;
 
-		std::cout << "Welcome to your Push/Pull/Legs workout split! This split is seperated into 3 exercise days with 4 rest days. An example" << '\n' 
-				  << "of what a week would what a week would look like is as fallows: Monday - Push, Tuesday - Rest, Wednesday - Pull," << '\n' 
-				  << "Thursday - Rest, Friday - Legs, Saturday - Rest, Sunday - Rest.  If the weight listed for you lifts and less than " << '\n'
-				  << "the weight of the bar (45 lbs), substitute the bar for dumbells and work your way up." << '\n' << std::endl;
+		std::cout << "Welcome to your Push/Pull/Legs workout split! This split is separated into 3 exercise days with 4 rest days. An example\n"
+				  << "of what a week would look like is as follows: Monday - Push, Tuesday - Rest, Wednesday - Pull,\n"
+				  << "Thursday - Rest, Friday - Legs, Saturday - Rest, Sunday - Rest. If the weight listed for your lifts is less than\n"
+				  << "the weight of the bar (45 lbs), substitute the bar for dumbbells and work your way up.\n" << std::endl;
 
 		std::cout << "\n" << "Week 1:" << std::endl;
 		
 		std::cout << "\n" << "Push Day:" << std::endl;
 
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 12 reps at " << weekOne_TwoBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 12 reps at " << weekOne_TwoBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 					 "Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' << 
 					 "Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 12 reps at " << weekOne_TwoDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 12 reps at " << weekOne_TwoDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 					 "Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 					 "Assisted Pullups: 3 x 10 reps"<< std::endl;
 
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 12 reps at " << weekOne_TwoSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 12 reps at " << weekOne_TwoSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 					 "Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 2:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 12 reps at " << weekOne_TwoBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 12 reps at " << weekOne_TwoBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 12 reps at " << weekOne_TwoDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 12 reps at " << weekOne_TwoDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 12 reps at " << weekOne_TwoSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 12 reps at " << weekOne_TwoSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 3:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 10 reps at " << weekThree_FourBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 10 reps at " << weekThree_FourBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 10 reps at " << weekThree_FourDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 10 reps at " << weekThree_FourDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 10 reps at " << weekThree_FourSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 10 reps at " << weekThree_FourSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 4:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 10 reps at " << weekThree_FourBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 10 reps at " << weekThree_FourBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 		
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 10 reps at " << weekThree_FourDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 10 reps at " << weekThree_FourDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 10 reps at " << weekThree_FourSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 10 reps at " << weekThree_FourSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 5:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 8 reps at " << weekFive_SixBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 8 reps at " << weekFive_SixBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 		
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 8 reps at " << weekFive_SixDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 8 reps at " << weekFive_SixDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 8 reps at " << weekFive_SixSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 8 reps at " << weekFive_SixSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 6:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 8 reps at " << weekFive_SixBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 8 reps at " << weekFive_SixBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 		
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 8 reps at " << weekFive_SixDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 8 reps at " << weekFive_SixDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 8 reps at " << weekFive_SixSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 8 reps at " << weekFive_SixSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 7:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 5 reps at " << weekSeven_EightBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 5 reps at " << weekSeven_EightBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 		
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 5 reps at " << weekSeven_EightDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 5 reps at " << weekSeven_EightDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 5 reps at " << weekSeven_EightSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 5 reps at " << weekSeven_EightSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 8:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 5 reps at " << weekSeven_EightBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 5 reps at " << weekSeven_EightBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 		
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 5 reps at " << weekSeven_EightDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 5 reps at " << weekSeven_EightDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 5 reps at " << weekSeven_EightSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 5 reps at " << weekSeven_EightSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 9:" << std::endl;
 
 		std::cout << "\n" << "Push Day:" << std::endl;
 
-		std::cout << "\n" << "Barbell Bench Press: 3 x 3 reps at " << weekNineBenchPress << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
+		std::cout << "\n" << "Barbell Bench Press: 3 x 3 reps at " << weekNineBenchPressRounded << "lbs" << " " << "\n" << "Incline Dumbbell Press: 3 x 8-12 reps" << "\n" <<
 			"Chest Press Machine: 3 x 8-12 reps" << "\n" << "Shoulder Press: 3 x 8-12 reps" << '\n' << "Tricep Kickbacks or Pulldowns (Hold at eccentric): 3 x 10-15 reps" << '\n' <<
 			"Assisted/Non-Assisted Tricep Dips: 3 x 10 reps" << std::endl;
 
 		std::cout << '\n' << "Pull Day: " << std::endl;
 		
-		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 3 reps at " << weekNineDeadlift << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
+		std::cout << '\n' << "Conventional or Trapbar Deadlift: 3 x 3 reps at " << weekNineDeadliftRounded << "lbs" << '\n' << "Lat Pulldowns: 3 x 8-12 reps" << '\n' <<
 			"Seated Rows (Full Extension on Eccentric): 3 x 8-12 reps" << '\n' << "Barbell or Dumbell Rows: 3 x 8-12 reps" << '\n' << "Shoulder Fly: 3 x 10-15 reps" << '\n' <<
 			"Assisted Pullups: 3 x 10 reps" << std::endl;
 		
 		std::cout << "\n" << "Leg Day:" << std::endl;
 
-		std::cout << '\n' << "Barbell Back Squat: 3 x 3 reps at " << weekNineSquat << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
+		std::cout << '\n' << "Barbell Back Squat: 3 x 3 reps at " << weekNineSquatRounded << "lbs" << '\n' << "Quad Extensions: 3 x 10 reps" << '\n' << "Hamstring Curls: 3 x 10 reps" << '\n' <<
 			"Bulgarian Split Squats: 3 x 8-12 reps" << '\n' << "Lunges (Weighted optional): 3 x 8-12 reps" << '\n' << "Calf Raises: 3 x 8-12 reps" << std::endl;
 
 		std::cout << "\n" << "Week 10:" << std::endl;
@@ -348,22 +267,22 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 	{
 		std::cout << "Creating an Upper/Lower workout split..." << "\n" << std::endl;
 		
-		std::cout << "Welcome to your Upper/Lower workout split! This split is seperated into 4 exercise days with 3 rest days. An example" << '\n' 
-				  << "of what a week would what a week would look like is as fallows: Monday - Upper day 1, Tuesday - Lower day 1, Wednesday - Rest," << '\n' 
-				  << "Thursday - Upper day 2, Friday - Lower day 2, Saturday - Rest, Sunday - Rest. If the weight listed for you lifts and less than " << '\n' 
-				  << "the weight of the bar (45 lbs), substitute the bar for dumbells and work your way up." << '\n' << std::endl;
+		std::cout << "Welcome to your Upper/Lower workout split! This split is separated into 4 exercise days with 3 rest days. An example\n"
+		          << "of what a week would look like is as follows: Monday - Upper day 1, Tuesday - Lower day 1, Wednesday - Rest,\n"
+		          << "Thursday - Upper day 2, Friday - Lower day 2, Saturday - Rest, Sunday - Rest. If the weight listed for your lifts is less than\n"
+		          << "the weight of the bar (45 lbs), substitute the bar for dumbbells and work your way up.\n" << std::endl;
 
 		std::cout << "\n" << "Week 1:" << std::endl;
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 12 for " << weekOne_TwoBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 12 for " << weekOne_TwoBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 12 for " << weekOne_TwoSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps" 
+		std::cout << '\n' << "Barbell Backsquat: 3 x 12 for " << weekOne_TwoSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 				  << '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps" 
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -382,13 +301,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 12 for " << weekOne_TwoBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 12 for " << weekOne_TwoBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 12 for " << weekOne_TwoSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 12 for " << weekOne_TwoSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -407,13 +326,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 10 for " << weekThree_FourBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 10 for " << weekThree_FourBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 10 for " << weekThree_FourSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 10 for " << weekThree_FourSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -432,13 +351,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 10 for " << weekThree_FourBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 10 for " << weekThree_FourBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 10 for " << weekThree_FourSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 10 for " << weekThree_FourSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -457,13 +376,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 8 for " << weekFive_SixBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 8 for " << weekFive_SixBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 8 for " << weekFive_SixSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 8 for " << weekFive_SixSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -482,13 +401,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 8 for " << weekFive_SixBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 8 for " << weekFive_SixBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 8 for " << weekFive_SixSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 8 for " << weekFive_SixSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -507,13 +426,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 5 for " << weekSeven_EightBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 5 for " << weekSeven_EightBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 5 for " << weekSeven_EightSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 5 for " << weekSeven_EightSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -532,13 +451,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 5 for " << weekSeven_EightBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 5 for " << weekSeven_EightBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 5 for " << weekSeven_EightSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 5 for " << weekSeven_EightSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -557,13 +476,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << "\n" << "Upper Day 1:" << std::endl;
 
-		std::cout << '\n' << "Bench Press: 3 x 3 for " << weekNineBenchPress << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
+		std::cout << '\n' << "Bench Press: 3 x 3 for " << weekNineBenchPressRounded << "lbs" << '\n' << "Barbell Row: 3 x 6-12 reps" << '\n' << "Seated Overhead Dumbbell Press: 3 x 8-12 reps"
 			<< '\n' << "Pec Dec / Seated Chest Fly - 3 sec negative: 2 x 10-12 reps" << '\n' << "V-Bar Lat Pull Down - 3 sec negative: 2 x 10-12 reps" << '\n'
 			<< "Side Lateral Raise: 2 x 10-15 reps" << '\n' << "Cable Tricep Extensions - 3 sec negative: 3 x 8-12 reps" << '\n' << "Cable Curls - 3 sec negative: 3 x 8-12 reps" << std::endl;
 		
 		std::cout << '\n' << "Lower Day 1:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 3 for " << weekNineSquat << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
+		std::cout << '\n' << "Barbell Backsquat: 3 x 3 for " << weekNineSquatRounded << "lbs" << '\n' << "Stiff Leg Deadlifts: 3 x 8-12 reps" << '\n' << "Standing Calf Raise: 3 x 10-15 reps"
 			<< '\n' << "Leg Extensions - 3 sec negative: 2 x 10-12 reps" << '\n' << "Leg Curl - 3 sec negative: 2 x 10-12 reps" << '\n' << "Seated Calf Raise - 3 sec negative: 2 x 10-12 reps"
 			<< '\n' << "Cable Crunch - 3 sec negative: 3 x 10-12 reps" << '\n' << "Cable Pull Through with Rope: 3 x 10-12 reps" << std::endl;
 
@@ -598,22 +517,22 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 	{
 		std::cout << "Creating a Full Body workout split..." << "\n" << std::endl;
 		
-		std::cout << "Welcome to your Full Body workout split! This split is seperated into 3 exercise days with 4 rest days. An example" << '\n'
-			<< "of what a week would what a week would look like is as fallows: Monday - Workout A, Tuesday - Rest, Wednesday - Workout B," << '\n'
-			<< "Thursday - Rest, Friday - Workout C, Saturday - Rest, Sunday - Rest.  If the weight listed for you lifts and less than " << '\n'
-			<< "the weight of the bar (45 lbs), substitute the bar for dumbells and work your way up." << '\n' << std::endl;
+		std::cout << "Welcome to your Full Body workout split! This split is separated into 3 exercise days with 4 rest days. An example\n"
+		          << "of what a week would look like is as follows: Monday - Workout A, Tuesday - Rest, Wednesday - Workout B,\n"
+		          << "Thursday - Rest, Friday - Workout C, Saturday - Rest, Sunday - Rest. If the weight listed for your lifts is less than\n"
+		          << "the weight of the bar (45 lbs), substitute the bar for dumbbells and work your way up.\n" << std::endl;
 
 		std::cout << '\n' << "Week 1:" << std::endl;
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 12 reps for " << weekOne_TwoSquat << "lbs" << '\n' << "Bench Press: 3 x 12 reps for " << weekOne_TwoBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 12 reps for " << weekOne_TwoSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 12 reps for " << weekOne_TwoBenchPressRounded << "lbs" << '\n'
 				  << "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 				  << "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 		
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 12 reps for " << weekOne_TwoDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 12 reps for " << weekOne_TwoDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -627,13 +546,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 12 reps for " << weekOne_TwoSquat << "lbs" << '\n' << "Bench Press: 3 x 12 reps for " << weekOne_TwoBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 12 reps for " << weekOne_TwoSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 12 reps for " << weekOne_TwoBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 12 reps for " << weekOne_TwoDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 12 reps for " << weekOne_TwoDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -647,13 +566,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 10 reps for " << weekThree_FourSquat << "lbs" << '\n' << "Bench Press: 3 x 10 reps for " << weekThree_FourBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 10 reps for " << weekThree_FourSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 10 reps for " << weekThree_FourBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 10 reps for " << weekThree_FourDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 10 reps for " << weekThree_FourDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -667,13 +586,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 10 reps for " << weekThree_FourSquat << "lbs" << '\n' << "Bench Press: 3 x 10 reps for " << weekThree_FourBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 10 reps for " << weekThree_FourSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 10 reps for " << weekThree_FourBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 10 reps for " << weekThree_FourDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 10 reps for " << weekThree_FourDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -687,13 +606,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 8 reps for " << weekFive_SixSquat << "lbs" << '\n' << "Bench Press: 3 x 8 reps for " << weekFive_SixBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 8 reps for " << weekFive_SixSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 8 reps for " << weekFive_SixBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 8 reps for " << weekFive_SixDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 8 reps for " << weekFive_SixDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -707,13 +626,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 8 reps for " << weekFive_SixSquat << "lbs" << '\n' << "Bench Press: 3 x 8 reps for " << weekFive_SixBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 8 reps for " << weekFive_SixSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 8 reps for " << weekFive_SixBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 8 reps for " << weekFive_SixDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 8 reps for " << weekFive_SixDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -727,13 +646,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 5 reps for " << weekSeven_EightSquat << "lbs" << '\n' << "Bench Press: 3 x 5 reps for " << weekSeven_EightBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 5 reps for " << weekSeven_EightSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 5 reps for " << weekSeven_EightBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 5 reps for " << weekSeven_EightDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 5 reps for " << weekSeven_EightDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -747,13 +666,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 5 reps for " << weekSeven_EightSquat << "lbs" << '\n' << "Bench Press: 3 x 5 reps for " << weekSeven_EightBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 5 reps for " << weekSeven_EightSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 5 reps for " << weekSeven_EightBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 5 reps for " << weekSeven_EightDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 5 reps for " << weekSeven_EightDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -767,13 +686,13 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout A:" << std::endl;
 
-		std::cout << '\n' << "Barbell Backsquat: 3 x 3 reps for " << weekNineSquat << "lbs" << '\n' << "Bench Press: 3 x 3 reps for " << weekNineBenchPress << "lbs" << '\n'
+		std::cout << '\n' << "Barbell Backsquat: 3 x 3 reps for " << weekNineSquatRounded << "lbs" << '\n' << "Bench Press: 3 x 3 reps for " << weekNineBenchPressRounded << "lbs" << '\n'
 			<< "Barbell Row: Ramp up 5 x 5 reps" << '\n' << "Upright Row: 3 x 10 reps" << '\n' << "Skullcrushers: 3 x 10 reps" << '\n' << "Dumbbell Curls: 3 x 10 reps" << '\n'
 			<< "Leg Curls: 3 x 12-15 reps" << '\n' << "Ab Wheel Rollouts: 3 x 10-15 reps" << std::endl;
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 3 reps for " << weekNineDeadlift << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: 3 x 3 reps for " << weekNineDeadliftRounded << "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
@@ -793,7 +712,7 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 
 		std::cout << '\n' << "Workout B:" << std::endl;
 
-		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: Work towards a new Max Deadlift"<< "lbs" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
+		std::cout << '\n' << "Conventional (or Trap Bar) Deadlift: Work towards a new Max Deadlift" << '\n' << "Romanian Deadlift: 2 x 8-12 reps" << '\n'
 			<< "Seated Overhead Press: 3 x 8-10 reps" << '\n' << "Pull Ups or Inverted Rows: 3 x 8-12 reps" << '\n' << "Dips: 3 x 10-20 reps" << '\n'
 			<< "Barbell Shrugs: 3 x 10 reps" << '\n' << "Calf Raises: 3 x 12-15 reps" << '\n' << "Planks: 3 x 60 sec" << std::endl;
 
