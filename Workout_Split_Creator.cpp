@@ -1,15 +1,24 @@
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <fstream>
+#include <iomanip>
+#include <cstdlib>
+
+const std::string WELCOME_MESSAGE =
+"Welcome to the Workout Split Creator! Here you will enter your current max Bench, Squat, "
+"and Deadlift weights,\nand this system will auto-generate workout splits with progressive "
+"overload features based on your inputs.\nFollow the instructions below to get started."
+"When the system gives you your split, copy and paste the weekly \nbreakdown into an Excel "
+"or Google spreadsheet and tailor it to your needs. Enjoy!\n";
 
 void welcomeMessage()
 {
-	std::cout << "Welcome to the Workout Split Creator! Here you will enter your current max Bench, Squat, and Deadlift weights, and this system will\n"
-	          << "auto-generate workout splits with progressive overload features based on your inputs. Follow the instructions below to get started.\n"
-	          << "When the system gives you your split, copy and paste the weekly breakdown into an Excel or Google spreadsheet and tailor it to your needs. Enjoy!\n" << std::endl;
-	std::cout << "Enter which style of workout split you want to create:" << "\n" << std::endl;
-	std::cout << "1. Push/Pull/Legs" << std::endl;
-	std::cout << "2. Upper/Lower" << std::endl;
-	std::cout << "3. Full Body" << "\n" << std::endl;
+	std::cout << WELCOME_MESSAGE << '\n';
+	std::cout << "Enter which style of workout split you want to create:" << "\n" << '\n';
+	std::cout << "1. Push/Pull/Legs" << '\n';
+	std::cout << "2. Upper/Lower" << '\n';
+	std::cout << "3. Full Body" << "\n" << '\n';
 }
 
 int roundToNearest5(double value)
@@ -517,10 +526,10 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 	{
 		std::cout << "Creating a Full Body workout split..." << "\n" << std::endl;
 		
-		std::cout << "Welcome to your Full Body workout split! This split is separated into 3 exercise days with 4 rest days. An example\n"
-		          << "of what a week would look like is as follows: Monday - Workout A, Tuesday - Rest, Wednesday - Workout B,\n"
-		          << "Thursday - Rest, Friday - Workout C, Saturday - Rest, Sunday - Rest. If the weight listed for your lifts is less than\n"
-		          << "the weight of the bar (45 lbs), substitute the bar for dumbbells and work your way up.\n" << std::endl;
+		std::cout << "Welcome to your Full Body workout split! This split is seperated into 3 exercise days with 4 rest days. An example" << '\n'
+			<< "of what a week would what a week would look like is as fallows: Monday - Workout A, Tuesday - Rest, Wednesday - Workout B," << '\n'
+			<< "Thursday - Rest, Friday - Workout C, Saturday - Rest, Sunday - Rest.  If the weight listed for you lifts and less than " << '\n'
+			<< "the weight of the bar (45 lbs), substitute the bar for dumbells and work your way up." << '\n' << std::endl;
 
 		std::cout << '\n' << "Week 1:" << std::endl;
 
@@ -729,6 +738,647 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 	}
 }
 
+void exportWorkoutSplitToCSV(int workoutType, int maxBenchPress, int maxSquat, int maxDeadlift, const std::string& filename)
+{
+	std::ofstream out(filename);
+	if (!out)
+	{
+		std::cerr << "Error: Could not open file for writing: " << filename << '\n';
+	}
+
+	auto roundToNearest5 = [](double value) 
+		{
+			return static_cast<int>(std::round(value / 5.0) * 5);
+		};
+
+	//Calculate rounded weights
+	int weekOne_TwoBenchPressRounded = roundToNearest5(maxBenchPress * 0.5);
+	int weekThree_FourBenchPressRounded = roundToNearest5(maxBenchPress * 0.6);
+	int weekFive_SixBenchPressRounded = roundToNearest5(maxBenchPress * 0.7);
+	int weekSeven_EightBenchPressRounded = roundToNearest5(maxBenchPress * 0.8);
+	int weekNineBenchPressRounded = roundToNearest5(maxBenchPress * 0.9);
+
+	int weekOne_TwoSquatRounded = roundToNearest5(maxSquat * 0.5);
+	int weekThree_FourSquatRounded = roundToNearest5(maxSquat * 0.6);
+	int weekFive_SixSquatRounded = roundToNearest5(maxSquat * 0.7);
+	int weekSeven_EightSquatRounded = roundToNearest5(maxSquat * 0.8);
+	int weekNineSquatRounded = roundToNearest5(maxSquat * 0.9);
+
+	int weekOne_TwoDeadliftRounded = roundToNearest5(maxDeadlift * 0.5);
+	int weekThree_FourDeadliftRounded = roundToNearest5(maxDeadlift * 0.6);
+	int weekFive_SixDeadliftRounded = roundToNearest5(maxDeadlift * 0.7);
+	int weekSeven_EightDeadliftRounded = roundToNearest5(maxDeadlift * 0.8);
+	int weekNineDeadliftRounded = roundToNearest5(maxDeadlift * 0.9);
+
+	//CSV Header
+	out << "Week,Day,Exercise,Sets x Reps,Weight (lbs),Notes\n";
+
+	auto writeRow = [&](const std::string& week, const std::string& day, const std::string& exercise, const std::string& setsReps, const std::string& weight, const std::string& notes = "")
+		{
+			out << '"' << week << "\","
+				<< '"' << day << "\","
+				<< '"' << exercise << "\","
+				<< '"' << setsReps << "\","
+				<< '"' << weight << "\","
+				<< '"' << notes << "\"\n";
+		};
+
+	if (workoutType == 1) // Push/Pull/Legs	{ 
+	{	
+		// Weeks 1-2
+		for (int week = 1; week <= 2; ++week) {
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Push", "Barbell Bench Press", "3 x 12", std::to_string(weekOne_TwoBenchPressRounded));
+			writeRow(weekStr, "Push", "Incline Dumbbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Chest Press Machine", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Shoulder Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Tricep Kickbacks or Pulldowns", "3 x 10-15", "", "Hold at eccentric");
+			writeRow(weekStr, "Push", "Assisted/Non-Assisted Tricep Dips", "3 x 10", "");
+
+			writeRow(weekStr, "Pull", "Conventional or Trapbar Deadlift", "3 x 12", std::to_string(weekOne_TwoDeadliftRounded));
+			writeRow(weekStr, "Pull", "Lat Pulldowns", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Seated Rows", "3 x 8-12", "", "Full Extension on Eccentric");
+			writeRow(weekStr, "Pull", "Barbell or Dumbbell Rows", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Shoulder Fly", "3 x 10-15", "");
+			writeRow(weekStr, "Pull", "Assisted Pullups", "3 x 10", "");
+
+			writeRow(weekStr, "Legs", "Barbell Back Squat", "3 x 12", std::to_string(weekOne_TwoSquatRounded));
+			writeRow(weekStr, "Legs", "Quad Extensions", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Hamstring Curls", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Bulgarian Split Squats", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Lunges (Weighted optional)", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Calf Raises", "3 x 8-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Weeks 3-4
+		for (int week = 3; week <= 4; ++week) {
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Push", "Barbell Bench Press", "3 x 10", std::to_string(weekThree_FourBenchPressRounded));
+			writeRow(weekStr, "Push", "Incline Dumbbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Chest Press Machine", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Shoulder Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Tricep Kickbacks or Pulldowns", "3 x 10-15", "", "Hold at eccentric");
+			writeRow(weekStr, "Push", "Assisted/Non-Assisted Tricep Dips", "3 x 10", "");
+
+			writeRow(weekStr, "Pull", "Conventional or Trapbar Deadlift", "3 x 10", std::to_string(weekThree_FourDeadliftRounded));
+			writeRow(weekStr, "Pull", "Lat Pulldowns", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Seated Rows", "3 x 8-12", "", "Full Extension on Eccentric");
+			writeRow(weekStr, "Pull", "Barbell or Dumbbell Rows", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Shoulder Fly", "3 x 10-15", "");
+			writeRow(weekStr, "Pull", "Assisted Pullups", "3 x 10", "");
+
+			writeRow(weekStr, "Legs", "Barbell Back Squat", "3 x 10", std::to_string(weekThree_FourSquatRounded));
+			writeRow(weekStr, "Legs", "Quad Extensions", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Hamstring Curls", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Bulgarian Split Squats", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Lunges (Weighted optional)", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Calf Raises", "3 x 8-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Weeks 5-6
+		for (int week = 5; week <= 6; ++week) {
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Push", "Barbell Bench Press", "3 x 8", std::to_string(weekFive_SixBenchPressRounded));
+			writeRow(weekStr, "Push", "Incline Dumbbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Chest Press Machine", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Shoulder Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Tricep Kickbacks or Pulldowns", "3 x 10-15", "", "Hold at eccentric");
+			writeRow(weekStr, "Push", "Assisted/Non-Assisted Tricep Dips", "3 x 10", "");
+
+			writeRow(weekStr, "Pull", "Conventional or Trapbar Deadlift", "3 x 8", std::to_string(weekFive_SixDeadliftRounded));
+			writeRow(weekStr, "Pull", "Lat Pulldowns", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Seated Rows", "3 x 8-12", "", "Full Extension on Eccentric");
+			writeRow(weekStr, "Pull", "Barbell or Dumbbell Rows", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Shoulder Fly", "3 x 10-15", "");
+			writeRow(weekStr, "Pull", "Assisted Pullups", "3 x 10", "");
+
+			writeRow(weekStr, "Legs", "Barbell Back Squat", "3 x 8", std::to_string(weekFive_SixSquatRounded));
+			writeRow(weekStr, "Legs", "Quad Extensions", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Hamstring Curls", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Bulgarian Split Squats", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Lunges (Weighted optional)", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Calf Raises", "3 x 8-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Weeks 7-8
+		for (int week = 7; week <= 8; ++week) {
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Push", "Barbell Bench Press", "3 x 5", std::to_string(weekSeven_EightBenchPressRounded));
+			writeRow(weekStr, "Push", "Incline Dumbbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Chest Press Machine", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Shoulder Press", "3 x 8-12", "");
+			writeRow(weekStr, "Push", "Tricep Kickbacks or Pulldowns", "3 x 10-15", "", "Hold at eccentric");
+			writeRow(weekStr, "Push", "Assisted/Non-Assisted Tricep Dips", "3 x 10", "");
+
+			writeRow(weekStr, "Pull", "Conventional or Trapbar Deadlift", "3 x 5", std::to_string(weekSeven_EightDeadliftRounded));
+			writeRow(weekStr, "Pull", "Lat Pulldowns", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Seated Rows", "3 x 8-12", "", "Full Extension on Eccentric");
+			writeRow(weekStr, "Pull", "Barbell or Dumbbell Rows", "3 x 8-12", "");
+			writeRow(weekStr, "Pull", "Shoulder Fly", "3 x 10-15", "");
+			writeRow(weekStr, "Pull", "Assisted Pullups", "3 x 10", "");
+
+			writeRow(weekStr, "Legs", "Barbell Back Squat", "3 x 5", std::to_string(weekSeven_EightSquatRounded));
+			writeRow(weekStr, "Legs", "Quad Extensions", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Hamstring Curls", "3 x 10", "");
+			writeRow(weekStr, "Legs", "Bulgarian Split Squats", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Lunges (Weighted optional)", "3 x 8-12", "");
+			writeRow(weekStr, "Legs", "Calf Raises", "3 x 8-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 9
+		writeRow("Week 9", "Push", "Barbell Bench Press", "3 x 3", std::to_string(weekNineBenchPressRounded));
+		writeRow("Week 9", "Push", "Incline Dumbbell Press", "3 x 8-12", "");
+		writeRow("Week 9", "Push", "Chest Press Machine", "3 x 8-12", "");
+		writeRow("Week 9", "Push", "Shoulder Press", "3 x 8-12", "");
+		writeRow("Week 9", "Push", "Tricep Kickbacks or Pulldowns", "3 x 10-15", "", "Hold at eccentric");
+		writeRow("Week 9", "Push", "Assisted/Non-Assisted Tricep Dips", "3 x 10", "");
+
+		writeRow("Week 9", "Pull", "Conventional or Trapbar Deadlift", "3 x 3", std::to_string(weekNineDeadliftRounded));
+		writeRow("Week 9", "Pull", "Lat Pulldowns", "3 x 8-12", "");
+		writeRow("Week 9", "Pull", "Seated Rows", "3 x 8-12", "", "Full Extension on Eccentric");
+		writeRow("Week 9", "Pull", "Barbell or Dumbbell Rows", "3 x 8-12", "");
+		writeRow("Week 9", "Pull", "Shoulder Fly", "3 x 10-15", "");
+		writeRow("Week 9", "Pull", "Assisted Pullups", "3 x 10", "");
+
+		writeRow("Week 9", "Legs", "Barbell Back Squat", "3 x 3", std::to_string(weekNineSquatRounded));
+		writeRow("Week 9", "Legs", "Quad Extensions", "3 x 10", "");
+		writeRow("Week 9", "Legs", "Hamstring Curls", "3 x 10", "");
+		writeRow("Week 9", "Legs", "Bulgarian Split Squats", "3 x 8-12", "");
+		writeRow("Week 9", "Legs", "Lunges (Weighted optional)", "3 x 8-12", "");
+		writeRow("Week 9", "Legs", "Calf Raises", "3 x 8-12", "");
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 10 (Max)
+		writeRow("Week 10", "Push", "Barbell Bench Press", "Work towards a new Max Bench Press", "", "");
+		writeRow("Week 10", "Push", "Incline Dumbbell Press", "3 x 8-12", "", "");
+		writeRow("Week 10", "Push", "Chest Press Machine", "3 x 8-12", "", "");
+		writeRow("Week 10", "Push", "Shoulder Press", "3 x 8-12", "", "");
+		writeRow("Week 10", "Push", "Tricep Kickbacks or Pulldowns", "3 x 10-15", "", "Hold at eccentric");
+		writeRow("Week 10", "Push", "Assisted/Non-Assisted Tricep Dips", "3 x 10", "", "");
+
+		writeRow("Week 10", "Pull", "Conventional or Trapbar Deadlift", "Work towards a new Max Deadlift", "", "");
+		writeRow("Week 10", "Pull", "Lat Pulldowns", "3 x 8-12", "", "");
+		writeRow("Week 10", "Pull", "Seated Rows", "3 x 8-12", "", "Full Extension on Eccentric");
+		writeRow("Week 10", "Pull", "Barbell or Dumbbell Rows", "3 x 8-12", "", "");
+		writeRow("Week 10", "Pull", "Shoulder Fly", "3 x 10-15", "", "");
+		writeRow("Week 10", "Pull", "Assisted Pullups", "3 x 10", "", "");
+
+		writeRow("Week 10", "Legs", "Barbell Back Squat", "Work towards a new Max Squat", "", "");
+		writeRow("Week 10", "Legs", "Quad Extensions", "3 x 10", "", "");
+		writeRow("Week 10", "Legs", "Hamstring Curls", "3 x 10", "", "");
+		writeRow("Week 10", "Legs", "Bulgarian Split Squats", "3 x 8-12", "", "");
+		writeRow("Week 10", "Legs", "Lunges (Weighted optional)", "3 x 8-12", "", "");
+		writeRow("Week 10", "Legs", "Calf Raises", "3 x 8-12", "", "");
+	}
+
+	else if (workoutType == 2) //Upper - Lower
+	{
+		// Weeks 1-2
+		for (int week = 1; week <= 2; ++ week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Upper Day 1", "Bench Press", "3 x 12", std::to_string(weekOne_TwoBenchPressRounded));
+			writeRow(weekStr, "Upper Day 1", "Barbell Row", "3 x 6-12", "");
+			writeRow(weekStr, "Upper Day 1", "Seated Overhead Dumbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Pec Dec / Seated Chest Fly - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "V-Bar Lat Pull Down - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "Side Lateral Raise", "2 x 10-15", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Tricep Extensions - 2 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Curls - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 1", "Barbell Backsquat", "3 x 12", std::to_string(weekOne_TwoSquatRounded));
+			writeRow(weekStr, "Lower Day 1", "Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 1", "Standing Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Extensions - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Curls - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Seated Calf Raises", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Crunches - 3 sec negative", "3 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Pull Through with Rope", "3 x 10-12", "");
+
+			writeRow(weekStr, "Upper Day 2", "Incline Dumbbell Bench Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Rack Deadlift - 3 to 5 inches off the ground", "3 x 5-8", "");
+			writeRow(weekStr, "Upper Day 2", "Military Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Chest Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Pull ups or Row Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Shourlder Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Dumbell Curls - 3 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Machine Tricep Dips - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 2", "Leg Press", "3 x 10-20", "");
+			writeRow(weekStr, "Lower Day 2", "Dumbell Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Leg Press Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 2", "Hack Squat", "2 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Leg Curl - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Calf Raises - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Planks", "3 x 60 sec", "");
+			writeRow(weekStr, "Lower Day 2", "Hyperextension", "3 x 10-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 3 -4
+		for (int week = 3; week <= 4; ++week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Upper Day 1", "Bench Press", "3 x 10", std::to_string(weekThree_FourBenchPressRounded));
+			writeRow(weekStr, "Upper Day 1", "Barbell Row", "3 x 6-12", "");
+			writeRow(weekStr, "Upper Day 1", "Seated Overhead Dumbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Pec Dec / Seated Chest Fly - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "V-Bar Lat Pull Down - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "Side Lateral Raise", "2 x 10-15", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Tricep Extensions - 2 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Curls - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 1", "Barbell Backsquat", "3 x 10", std::to_string(weekThree_FourSquatRounded));
+			writeRow(weekStr, "Lower Day 1", "Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 1", "Standing Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Extensions - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Curls - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Seated Calf Raises", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Crunches - 3 sec negative", "3 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Pull Through with Rope", "3 x 10-12", "");
+
+			writeRow(weekStr, "Upper Day 2", "Incline Dumbbell Bench Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Rack Deadlift - 3 to 5 inches off the ground", "3 x 5-8", "");
+			writeRow(weekStr, "Upper Day 2", "Military Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Chest Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Pull ups or Row Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Shourlder Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Dumbell Curls - 3 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Machine Tricep Dips - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 2", "Leg Press", "3 x 10-20", "");
+			writeRow(weekStr, "Lower Day 2", "Dumbell Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Leg Press Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 2", "Hack Squat", "2 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Leg Curl - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Calf Raises - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Planks", "3 x 60 sec", "");
+			writeRow(weekStr, "Lower Day 2", "Hyperextension", "3 x 10-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		//Week 5-6
+		for (int week = 5; week <= 6; ++week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Upper Day 1", "Bench Press", "3 x 8", std::to_string(weekFive_SixBenchPressRounded));
+			writeRow(weekStr, "Upper Day 1", "Barbell Row", "3 x 6-12", "");
+			writeRow(weekStr, "Upper Day 1", "Seated Overhead Dumbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Pec Dec / Seated Chest Fly - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "V-Bar Lat Pull Down - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "Side Lateral Raise", "2 x 10-15", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Tricep Extensions - 2 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Curls - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 1", "Barbell Backsquat", "3 x 8", std::to_string(weekFive_SixSquatRounded));
+			writeRow(weekStr, "Lower Day 1", "Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 1", "Standing Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Extensions - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Curls - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Seated Calf Raises", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Crunches - 3 sec negative", "3 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Pull Through with Rope", "3 x 10-12", "");
+
+			writeRow(weekStr, "Upper Day 2", "Incline Dumbbell Bench Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Rack Deadlift - 3 to 5 inches off the ground", "3 x 5-8", "");
+			writeRow(weekStr, "Upper Day 2", "Military Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Chest Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Pull ups or Row Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Shourlder Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Dumbell Curls - 3 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Machine Tricep Dips - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 2", "Leg Press", "3 x 10-20", "");
+			writeRow(weekStr, "Lower Day 2", "Dumbell Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Leg Press Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 2", "Hack Squat", "2 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Leg Curl - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Calf Raises - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Planks", "3 x 60 sec", "");
+			writeRow(weekStr, "Lower Day 2", "Hyperextension", "3 x 10-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 7-8
+		for (int week = 7; week <= 8; ++week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Upper Day 1", "Bench Press", "3 x 5", std::to_string(weekSeven_EightBenchPressRounded));
+			writeRow(weekStr, "Upper Day 1", "Barbell Row", "3 x 6-12", "");
+			writeRow(weekStr, "Upper Day 1", "Seated Overhead Dumbell Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Pec Dec / Seated Chest Fly - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "V-Bar Lat Pull Down - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Upper Day 1", "Side Lateral Raise", "2 x 10-15", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Tricep Extensions - 2 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 1", "Cable Curls - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 1", "Barbell Backsquat", "3 x 5", std::to_string(weekSeven_EightSquatRounded));
+			writeRow(weekStr, "Lower Day 1", "Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 1", "Standing Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Extensions - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Leg Curls - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Seated Calf Raises", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Crunches - 3 sec negative", "3 x 10-12", "");
+			writeRow(weekStr, "Lower Day 1", "Cable Pull Through with Rope", "3 x 10-12", "");
+
+			writeRow(weekStr, "Upper Day 2", "Incline Dumbbell Bench Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Rack Deadlift - 3 to 5 inches off the ground", "3 x 5-8", "");
+			writeRow(weekStr, "Upper Day 2", "Military Press", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Chest Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Pull ups or Row Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Shourlder Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Dumbell Curls - 3 sec negative", "3 x 8-12", "");
+			writeRow(weekStr, "Upper Day 2", "Machine Tricep Dips - 3 sec negative", "3 x 8-12", "");
+
+			writeRow(weekStr, "Lower Day 2", "Leg Press", "3 x 10-20", "");
+			writeRow(weekStr, "Lower Day 2", "Dumbell Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Leg Press Calf Raises", "3 x 10-15", "");
+			writeRow(weekStr, "Lower Day 2", "Hack Squat", "2 x 8-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Leg Curl - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Seated Calf Raises - 3 sec negative", "2 x 10-12", "");
+			writeRow(weekStr, "Lower Day 2", "Planks", "3 x 60 sec", "");
+			writeRow(weekStr, "Lower Day 2", "Hyperextension", "3 x 10-12", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 9
+			writeRow("Week 9", "Upper Day 1", "Bench Press", "3 x 3", std::to_string(weekOne_TwoBenchPressRounded));
+			writeRow("Week 9", "Upper Day 1", "Barbell Row", "3 x 6-12", "");
+			writeRow("Week 9", "Upper Day 1", "Seated Overhead Dumbell Press", "3 x 8-12", "");
+			writeRow("Week 9", "Upper Day 1", "Pec Dec / Seated Chest Fly - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 9", "Upper Day 1", "V-Bar Lat Pull Down - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 9", "Upper Day 1", "Side Lateral Raise", "2 x 10-15", "");
+			writeRow("Week 9", "Upper Day 1", "Cable Tricep Extensions - 2 sec negative", "3 x 8-12", "");
+			writeRow("Week 9", "Upper Day 1", "Cable Curls - 3 sec negative", "3 x 8-12", "");
+
+			writeRow("Week 9", "Lower Day 1", "Barbell Backsquat", "3 x 3", std::to_string(weekOne_TwoSquatRounded));
+			writeRow("Week 9", "Lower Day 1", "Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow("Week 9", "Lower Day 1", "Standing Calf Raises", "3 x 10-15", "");
+			writeRow("Week 9", "Lower Day 1", "Leg Extensions - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 9", "Lower Day 1", "Leg Curls - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 9", "Lower Day 1", "Seated Calf Raises", "2 x 10-12", "");
+			writeRow("Week 9", "Lower Day 1", "Cable Crunches - 3 sec negative", "3 x 10-12", "");
+			writeRow("Week 9", "Lower Day 1", "Cable Pull Through with Rope", "3 x 10-12", "");
+
+			writeRow("Week 9", "Upper Day 2", "Incline Dumbbell Bench Press", "3 x 8-12", "");
+			writeRow("Week 9", "Upper Day 2", "Rack Deadlift - 3 to 5 inches off the ground", "3 x 5-8", "");
+			writeRow("Week 9", "Upper Day 2", "Military Press", "3 x 8-12", "");
+			writeRow("Week 9", "Upper Day 2", "Chest Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow("Week 9", "Upper Day 2", "Pull ups or Row Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow("Week 9", "Upper Day 2", "Shourlder Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow("Week 9", "Upper Day 2", "Dumbell Curls - 3 sec negative", "3 x 8-12", "");
+			writeRow("Week 9", "Upper Day 2", "Machine Tricep Dips - 3 sec negative", "3 x 8-12", "");
+
+			writeRow("Week 9", "Lower Day 2", "Leg Press", "3 x 10-20", "");
+			writeRow("Week 9", "Lower Day 2", "Dumbell Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow("Week 9", "Lower Day 2", "Leg Press Calf Raises", "3 x 10-15", "");
+			writeRow("Week 9", "Lower Day 2", "Hack Squat", "2 x 8-12", "");
+			writeRow("Week 9", "Lower Day 2", "Seated Leg Curl - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 9", "Lower Day 2", "Seated Calf Raises - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 9", "Lower Day 2", "Planks", "3 x 60 sec", "");
+			writeRow("Week 9", "Lower Day 2", "Hyperextension", "3 x 10-12", "");
+
+			out << '\n'; //Adds white space when exporting to CSV
+			// Week 10 (Max)
+			writeRow("Week 10", "Upper Day 1", "Bench Press", "Work towards a new Max Bench Press", "", "");
+			writeRow("Week 10", "Upper Day 1", "Barbell Row", "3 x 6-12", "");
+			writeRow("Week 10", "Upper Day 1", "Seated Overhead Dumbell Press", "3 x 8-12", "");
+			writeRow("Week 10", "Upper Day 1", "Pec Dec / Seated Chest Fly - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 10", "Upper Day 1", "V-Bar Lat Pull Down - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 10", "Upper Day 1", "Side Lateral Raise", "2 x 10-15", "");
+			writeRow("Week 10", "Upper Day 1", "Cable Tricep Extensions - 2 sec negative", "3 x 8-12", "");
+			writeRow("Week 10", "Upper Day 1", "Cable Curls - 3 sec negative", "3 x 8-12", "");
+
+			writeRow("Week 10", "Lower Day 1", "Barbell Backsquat", "Work towards a new Max Squat", "", "");
+			writeRow("Week 10", "Lower Day 1", "Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow("Week 10", "Lower Day 1", "Standing Calf Raises", "3 x 10-15", "");
+			writeRow("Week 10", "Lower Day 1", "Leg Extensions - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 10", "Lower Day 1", "Leg Curls - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 10", "Lower Day 1", "Seated Calf Raises", "2 x 10-12", "");
+			writeRow("Week 10", "Lower Day 1", "Cable Crunches - 3 sec negative", "3 x 10-12", "");
+			writeRow("Week 10", "Lower Day 1", "Cable Pull Through with Rope", "3 x 10-12", "");
+
+			writeRow("Week 10", "Upper Day 2", "Incline Dumbbell Bench Press", "3 x 8-12", "");
+			writeRow("Week 10", "Upper Day 2", "Rack Deadlift - 3 to 5 inches off the ground", "3 x 5-8", "");
+			writeRow("Week 10", "Upper Day 2", "Military Press", "3 x 8-12", "");
+			writeRow("Week 10", "Upper Day 2", "Chest Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow("Week 10", "Upper Day 2", "Pull ups or Row Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow("Week 10", "Upper Day 2", "Shourlder Press Machine - 3 sec negative", "2 x 8-12", "");
+			writeRow("Week 10", "Upper Day 2", "Dumbell Curls - 3 sec negative", "3 x 8-12", "");
+			writeRow("Week 10", "Upper Day 2", "Machine Tricep Dips - 3 sec negative", "3 x 8-12", "");
+
+			writeRow("Week 10", "Lower Day 2", "Leg Press", "3 x 10-20", "");
+			writeRow("Week 10", "Lower Day 2", "Dumbell Stiff Leg Deadlift", "3 x 8-12", "");
+			writeRow("Week 10", "Lower Day 2", "Leg Press Calf Raises", "3 x 10-15", "");
+			writeRow("Week 10", "Lower Day 2", "Hack Squat", "2 x 8-12", "");
+			writeRow("Week 10", "Lower Day 2", "Seated Leg Curl - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 10", "Lower Day 2", "Seated Calf Raises - 3 sec negative", "2 x 10-12", "");
+			writeRow("Week 10", "Lower Day 2", "Planks", "3 x 60 sec", "");
+			writeRow("Week 10", "Lower Day 2", "Hyperextension", "3 x 10-12", "");
+	}
+	else if (workoutType == 3) // Full Body
+	{
+		// Week 1-2
+		for (int week = 1; week <= 2; ++week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Workout A", "Barbell Backsquat", "3 x 12", std::to_string(weekOne_TwoSquatRounded));
+			writeRow(weekStr, "Workout A", "Bench Press", "3 x 12", std::to_string(weekOne_TwoBenchPressRounded));
+			writeRow(weekStr, "Workout A", "Barbell Row", "Ramp up 5 x 5", "");
+			writeRow(weekStr, "Workout A", "Upright Row", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Skullcrushers", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Dumbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout A", "Ab Wheel Roll Out", "3 x 10-15", "");
+
+			writeRow(weekStr, "Workout B", "Conventional (Or Trap Bar) Deadlift", "3 x 12", std::to_string(weekOne_TwoDeadliftRounded));
+			writeRow(weekStr, "Workout B", "Romanian Deadlift", "2 x 8-12", "");
+			writeRow(weekStr, "Workout B", "Seated Overhead Press", "3 x 8-10", "");
+			writeRow(weekStr, "Workout B", "Pull Ups or Inverted Rows", "3 x 10-15", "");
+			writeRow(weekStr, "Workout B", "Dips", "3 x 10-20", "");
+			writeRow(weekStr, "Workout B", "Barbell Shrugs", "3 x 10", "");
+			writeRow(weekStr, "Workout B", "Standing or Seated Calf Raises", "3 x 12-15", "");
+			writeRow(weekStr, "Workout B", "Plank", "3 x 60 sec", "");
+
+			writeRow(weekStr, "Workout C", "Barbell Backsquat", "3 x 12", std::to_string(weekOne_TwoSquatRounded));
+			writeRow(weekStr, "Workout C", "Air Squats", "1 x 20", "");
+			writeRow(weekStr, "Workout C", "Inclinme Dumbell Bench Press", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "One Arm Dumbelll Row", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Seated Arnold Press", "3 x 10-15", "");
+			writeRow(weekStr, "Workout C", "Cable Tricep Extensions", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Barbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout C", "Ab Wheel Roll Out", "3 x 10-15", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 3-4
+		for (int week = 3; week <= 4; ++week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Workout A", "Barbell Backsquat", "3 x 10", std::to_string(weekThree_FourSquatRounded));
+			writeRow(weekStr, "Workout A", "Bench Press", "3 x 10", std::to_string(weekThree_FourBenchPressRounded));
+			writeRow(weekStr, "Workout A", "Barbell Row", "Ramp up 5 x 5", "");
+			writeRow(weekStr, "Workout A", "Upright Row", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Skullcrushers", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Dumbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout A", "Ab Wheel Roll Out", "3 x 10-15", "");
+
+			writeRow(weekStr, "Workout B", "Conventional (Or Trap Bar) Deadlift", "3 x 10", std::to_string(weekThree_FourDeadliftRounded));
+			writeRow(weekStr, "Workout B", "Romanian Deadlift", "2 x 8-12", "");
+			writeRow(weekStr, "Workout B", "Seated Overhead Press", "3 x 8-10", "");
+			writeRow(weekStr, "Workout B", "Pull Ups or Inverted Rows", "3 x 10-15", "");
+			writeRow(weekStr, "Workout B", "Dips", "3 x 10-20", "");
+			writeRow(weekStr, "Workout B", "Barbell Shrugs", "3 x 10", "");
+			writeRow(weekStr, "Workout B", "Standing or Seated Calf Raises", "3 x 12-15", "");
+			writeRow(weekStr, "Workout B", "Plank", "3 x 60 sec", "");
+
+			writeRow(weekStr, "Workout C", "Barbell Backsquat", "3 x 10", std::to_string(weekThree_FourSquatRounded));
+			writeRow(weekStr, "Workout C", "Air Squats", "1 x 20", "");
+			writeRow(weekStr, "Workout C", "Inclinme Dumbell Bench Press", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "One Arm Dumbelll Row", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Seated Arnold Press", "3 x 10-15", "");
+			writeRow(weekStr, "Workout C", "Cable Tricep Extensions", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Barbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout C", "Ab Wheel Roll Out", "3 x 10-15", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 5-6
+		for (int week = 5; week <= 6; ++week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Workout A", "Barbell Backsquat", "3 x 8", std::to_string(weekFive_SixSquatRounded));
+			writeRow(weekStr, "Workout A", "Bench Press", "3 x 8", std::to_string(weekFive_SixBenchPressRounded));
+			writeRow(weekStr, "Workout A", "Barbell Row", "Ramp up 5 x 5", "");
+			writeRow(weekStr, "Workout A", "Upright Row", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Skullcrushers", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Dumbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout A", "Ab Wheel Roll Out", "3 x 10-15", "");
+
+			writeRow(weekStr, "Workout B", "Conventional (Or Trap Bar) Deadlift", "3 x 8", std::to_string(weekFive_SixDeadliftRounded));
+			writeRow(weekStr, "Workout B", "Romanian Deadlift", "2 x 8-12", "");
+			writeRow(weekStr, "Workout B", "Seated Overhead Press", "3 x 8-10", "");
+			writeRow(weekStr, "Workout B", "Pull Ups or Inverted Rows", "3 x 10-15", "");
+			writeRow(weekStr, "Workout B", "Dips", "3 x 10-20", "");
+			writeRow(weekStr, "Workout B", "Barbell Shrugs", "3 x 10", "");
+			writeRow(weekStr, "Workout B", "Standing or Seated Calf Raises", "3 x 12-15", "");
+			writeRow(weekStr, "Workout B", "Plank", "3 x 60 sec", "");
+
+			writeRow(weekStr, "Workout C", "Barbell Backsquat", "3 x 8", std::to_string(weekFive_SixSquatRounded));
+			writeRow(weekStr, "Workout C", "Air Squats", "1 x 20", "");
+			writeRow(weekStr, "Workout C", "Inclinme Dumbell Bench Press", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "One Arm Dumbelll Row", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Seated Arnold Press", "3 x 10-15", "");
+			writeRow(weekStr, "Workout C", "Cable Tricep Extensions", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Barbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout C", "Ab Wheel Roll Out", "3 x 10-15", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 7-8
+		for (int week = 7; week <= 8; ++week)
+		{
+			std::string weekStr = "Week " + std::to_string(week);
+			writeRow(weekStr, "Workout A", "Barbell Backsquat", "3 x 5", std::to_string(weekSeven_EightSquatRounded));
+			writeRow(weekStr, "Workout A", "Bench Press", "3 x 5", std::to_string(weekSeven_EightBenchPressRounded));
+			writeRow(weekStr, "Workout A", "Barbell Row", "Ramp up 5 x 5", "");
+			writeRow(weekStr, "Workout A", "Upright Row", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Skullcrushers", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Dumbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout A", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout A", "Ab Wheel Roll Out", "3 x 10-15", "");
+
+			writeRow(weekStr, "Workout B", "Conventional (Or Trap Bar) Deadlift", "3 x 5", std::to_string(weekSeven_EightDeadliftRounded));
+			writeRow(weekStr, "Workout B", "Romanian Deadlift", "2 x 8-12", "");
+			writeRow(weekStr, "Workout B", "Seated Overhead Press", "3 x 8-10", "");
+			writeRow(weekStr, "Workout B", "Pull Ups or Inverted Rows", "3 x 10-15", "");
+			writeRow(weekStr, "Workout B", "Dips", "3 x 10-20", "");
+			writeRow(weekStr, "Workout B", "Barbell Shrugs", "3 x 10", "");
+			writeRow(weekStr, "Workout B", "Standing or Seated Calf Raises", "3 x 12-15", "");
+			writeRow(weekStr, "Workout B", "Plank", "3 x 60 sec", "");
+
+			writeRow(weekStr, "Workout C", "Barbell Backsquat", "3 x 5", std::to_string(weekSeven_EightSquatRounded));
+			writeRow(weekStr, "Workout C", "Air Squats", "1 x 20", "");
+			writeRow(weekStr, "Workout C", "Inclinme Dumbell Bench Press", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "One Arm Dumbelll Row", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Seated Arnold Press", "3 x 10-15", "");
+			writeRow(weekStr, "Workout C", "Cable Tricep Extensions", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Barbell Curls", "3 x 10", "");
+			writeRow(weekStr, "Workout C", "Leg Curls", "3 x 12-15", "");
+			writeRow(weekStr, "Workout C", "Ab Wheel Roll Out", "3 x 10-15", "");
+		}
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 9
+		writeRow("Week 9", "Workout A", "Barbell Backsquat", "3 x 3", std::to_string(weekOne_TwoSquatRounded));
+		writeRow("Week 9", "Workout A", "Bench Press", "3 x 3", std::to_string(weekOne_TwoBenchPressRounded));
+		writeRow("Week 9", "Workout A", "Barbell Row", "Ramp up 5 x 5", "");
+		writeRow("Week 9", "Workout A", "Upright Row", "3 x 10", "");
+		writeRow("Week 9", "Workout A", "Skullcrushers", "3 x 10", "");
+		writeRow("Week 9", "Workout A", "Dumbell Curls", "3 x 10", "");
+		writeRow("Week 9", "Workout A", "Leg Curls", "3 x 12-15", "");
+		writeRow("Week 9", "Workout A", "Ab Wheel Roll Out", "3 x 10-15", "");
+
+		writeRow("Week 9", "Workout B", "Conventional (Or Trap Bar) Deadlift", "3 x 3", std::to_string(weekOne_TwoDeadliftRounded));
+		writeRow("Week 9", "Workout B", "Romanian Deadlift", "2 x 8-12", "");
+		writeRow("Week 9", "Workout B", "Seated Overhead Press", "3 x 8-10", "");
+		writeRow("Week 9", "Workout B", "Pull Ups or Inverted Rows", "3 x 10-15", "");
+		writeRow("Week 9", "Workout B", "Dips", "3 x 10-20", "");
+		writeRow("Week 9", "Workout B", "Barbell Shrugs", "3 x 10", "");
+		writeRow("Week 9", "Workout B", "Standing or Seated Calf Raises", "3 x 12-15", "");
+		writeRow("Week 9", "Workout B", "Plank", "3 x 60 sec", "");
+
+		writeRow("Week 9", "Workout C", "Barbell Backsquat", "3 x 3", std::to_string(weekOne_TwoSquatRounded));
+		writeRow("Week 9", "Workout C", "Air Squats", "1 x 20", "");
+		writeRow("Week 9", "Workout C", "Inclinme Dumbell Bench Press", "3 x 10", "");
+		writeRow("Week 9", "Workout C", "One Arm Dumbelll Row", "3 x 10", "");
+		writeRow("Week 9", "Workout C", "Seated Arnold Press", "3 x 10-15", "");
+		writeRow("Week 9", "Workout C", "Cable Tricep Extensions", "3 x 10", "");
+		writeRow("Week 9", "Workout C", "Barbell Curls", "3 x 10", "");
+		writeRow("Week 9", "Workout C", "Leg Curls", "3 x 12-15", "");
+		writeRow("Week 9", "Workout C", "Ab Wheel Roll Out", "3 x 10-15", "");
+
+		out << '\n'; //Adds white space when exporting to CSV
+		// Week 10 (Max)
+		writeRow("Week 10", "Workout A", "Barbell Backsquat", "Work towards a new Max Squat", "", "");
+		writeRow("Week 10", "Workout A", "Bench Press", "Work towards a new Max Bench Press", "", "");
+		writeRow("Week 10", "Workout A", "Barbell Row", "Ramp up 5 x 5", "");
+		writeRow("Week 10", "Workout A", "Upright Row", "3 x 10", "");
+		writeRow("Week 10", "Workout A", "Skullcrushers", "3 x 10", "");
+		writeRow("Week 10", "Workout A", "Dumbell Curls", "3 x 10", "");
+		writeRow("Week 10", "Workout A", "Leg Curls", "3 x 12-15", "");
+		writeRow("Week 10", "Workout A", "Ab Wheel Roll Out", "3 x 10-15", "");
+
+		writeRow("Week 10", "Workout B", "Conventional (Or Trap Bar) Deadlift", "Work towards a new Max Deadlift", "", "");
+		writeRow("Week 10", "Workout B", "Romanian Deadlift", "2 x 8-12", "");
+		writeRow("Week 10", "Workout B", "Seated Overhead Press", "3 x 8-10", "");
+		writeRow("Week 10", "Workout B", "Pull Ups or Inverted Rows", "3 x 10-15", "");
+		writeRow("Week 10", "Workout B", "Dips", "3 x 10-20", "");
+		writeRow("Week 10", "Workout B", "Barbell Shrugs", "3 x 10", "");
+		writeRow("Week 10", "Workout B", "Standing or Seated Calf Raises", "3 x 12-15", "");
+		writeRow("Week 10", "Workout B", "Plank", "3 x 60 sec", "");
+
+		writeRow("Week 10", "Workout C", "Barbell Backsquat", "Work towards a new Max Squat", "", "");
+		writeRow("Week 10", "Workout C", "Air Squats", "1 x 20", "");
+		writeRow("Week 10", "Workout C", "Inclinme Dumbell Bench Press", "3 x 10", "");
+		writeRow("Week 10", "Workout C", "One Arm Dumbelll Row", "3 x 10", "");
+		writeRow("Week 10", "Workout C", "Seated Arnold Press", "3 x 10-15", "");
+		writeRow("Week 10", "Workout C", "Cable Tricep Extensions", "3 x 10", "");
+		writeRow("Week 10", "Workout C", "Barbell Curls", "3 x 10", "");
+		writeRow("Week 10", "Workout C", "Leg Curls", "3 x 12-15", "");
+		writeRow("Week 10", "Workout C", "Ab Wheel Roll Out", "3 x 10-15", "");
+	}
+}
+
 int main()
 {
 	welcomeMessage();
@@ -739,8 +1389,10 @@ int main()
 	int maxDeadlift{};
 
 	// Get user input for workout type and max weights
-	std::cout << "Please enter your choice: ";
+	std::cout << "Please enter your choice (Ex: Type '1' for 'Push/Pull/Legs'): ";
 	std::cin >> workoutType;
+
+	std::cout << "\n" << "You selected option " << workoutType << "." << "\n" << std::endl;
 
 	//Rounds the inputted max bench press weight to the nearest 5 lbs for calculations
 	std::cout << "\n" << "Please enter your max bench press weight (in lbs). If you do not know, put 45: ";
@@ -752,13 +1404,18 @@ int main()
 	std::cout << "Please enter your max deadlift weight (in lbs). If you do not know, put 45: ";
 	std::cin >> maxDeadlift;
 
-	// Tells the user what they selected for a workout type
-	std::cout << "\n" << "You selected option " << workoutType << "." << "\n" << std::endl; 
-
 	//Go to workoutSplitCreator Function
 	workoutSplitCreator(workoutType, maxBenchPress, maxSquat, maxDeadlift);
 
-	std::cout << "\n" << "Before exiting this window, copy and paste your workout split into an Excel/Google Sheets workbook. Thank you for using the Workout Split Creator!" << "\n" << std::endl;
+	std::string filename;
+	std::cout << "\n" << "Enter a filename to export your workout split (Ex: (name)_workout.csv): ";
+	std:: cin >> filename;
+	exportWorkoutSplitToCSV(workoutType, maxBenchPress, maxSquat, maxDeadlift, filename);
+	std::cout << "Workout split exported to " << filename << '\n';
+
+	// Open the CSV File after exporting
+	std::string openCmd = "start \"\" \"" + filename + "\"";
+	system(openCmd.c_str());
 
 	return 0;
 }
