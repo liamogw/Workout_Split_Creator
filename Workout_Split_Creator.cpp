@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iomanip>
 #include <cstdlib>
-
+			   
 const std::string WELCOME_MESSAGE =
 "Welcome to the Workout Split Creator! Here you will enter your current max Bench, Squat, "
 "and Deadlift weights,\nand this system will auto-generate workout splits with progressive "
@@ -25,7 +25,6 @@ int roundToNearest5(double value)
 {
 	return static_cast<int> (std::round(value / 5.0) * 5);
 }
-
 void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int maxDeadlift)
 {	
 	double weekOne_TwoBenchPress = maxBenchPress * 0.5;
@@ -738,7 +737,7 @@ void workoutSplitCreator(int workoutType, int maxBenchPress, int maxSquat, int m
 	}
 }
 
-void exportWorkoutSplitToCSV(int workoutType, int maxBenchPress, int maxSquat, int maxDeadlift, const std::string& filename)
+void exportWorkoutSplitToCSV(int workoutType, int maxBenchPress, int maxSquat, int maxDeadlift, const std::string & filename)
 {
 	std::ofstream out(filename);
 	if (!out)
@@ -785,7 +784,7 @@ void exportWorkoutSplitToCSV(int workoutType, int maxBenchPress, int maxSquat, i
 
 	if (workoutType == 1) // Push/Pull/Legs	{ 
 	{	
-		// Weeks 1-2
+		// Weeks 1-2						 
 		for (int week = 1; week <= 2; ++week) {
 			std::string weekStr = "Week " + std::to_string(week);
 			writeRow(weekStr, "Push", "Barbell Bench Press", "3 x 12", std::to_string(weekOne_TwoBenchPressRounded));
@@ -1389,8 +1388,28 @@ int main()
 	int maxDeadlift{};
 
 	// Get user input for workout type and max weights
-	std::cout << "Please enter your choice (Ex: Type '1' for 'Push/Pull/Legs'): ";
-	std::cin >> workoutType;
+	bool validInput = false;
+	do {
+		std::cout << "Please enter you choice (Ex: Type '1' for 'Push/Pull/Legs'): ";
+		if (std::cin >> workoutType)
+		{
+			if (workoutType >= 1 && workoutType <= 3)
+			{
+				validInput = true;
+			}
+
+			else
+			{
+				std::cout << "\nInvalid choice. Please enter 1, 2, or 3. \n\n";
+			}
+		}
+		else
+		{
+			std::cout << "\nInvalid Input. Please enter a number.\n\n";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+		}
+		}while(!validInput);
 
 	std::cout << "\n" << "You selected option " << workoutType << "." << "\n" << std::endl;
 
@@ -1407,9 +1426,11 @@ int main()
 	//Go to workoutSplitCreator Function
 	workoutSplitCreator(workoutType, maxBenchPress, maxSquat, maxDeadlift);
 
-	std::string filename;
-	std::cout << "\n" << "Enter a filename to export your workout split (Ex: (name)_workout.csv): ";
-	std:: cin >> filename;
+	std::string userName;
+	std::cout << "\n" << "Enter your name to export your workout split: ";
+	std:: cin >> userName;
+	std::string filename = userName + "_Workout.csv";
+
 	exportWorkoutSplitToCSV(workoutType, maxBenchPress, maxSquat, maxDeadlift, filename);
 	std::cout << "Workout split exported to " << filename << '\n';
 
